@@ -1,19 +1,11 @@
-const express = require('express');
-const app = express();
-const connection = require('./config/db')()
-
-app.locals.pretty = true;
-
-app.locals.pretty = true;
-
-app.use(express.static('public'));
-app.use(express.json()); 
-app.use(express.urlencoded( {extended : false } )); 
+const app = require('./config/express');
 
 
-app.get('/db', (req, res) => {
-  console.log(connection)
-})
-app.listen(80, () => {  
+const auth = require('./routes/auth')();
+app.use('/auth', auth)
+
+
+
+app.listen(3000, () => {  
   console.log('server 80 start')
 })
