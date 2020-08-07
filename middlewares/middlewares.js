@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.verifyToken = (req, res, next) => {
+  // 액세스 토큰 검증
   try {    
     req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
     return next();
@@ -24,6 +25,7 @@ exports.verifyToken = (req, res, next) => {
 }
 
 exports.refreshVerifyToken = (req, res, next) => {
+  // 리프레시 토큰 검증
   try {    
     req.decoded = jwt.verify(req.headers.refresh_token, process.env.JWT_SECRET);
     return next();
