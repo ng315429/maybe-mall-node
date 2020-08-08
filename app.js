@@ -1,19 +1,18 @@
-const express = require('express');
-const app = express();
-const connection = require('./config/db')()
+const app = require('./config/express');
+const connection = require('./config/db')();
 
-app.locals.pretty = true;
+const auth = require('./routes/auth')(connection);
 
-app.locals.pretty = true;
+app.use('/auth', auth);
 
-app.use(express.static('public'));
-app.use(express.json()); 
-app.use(express.urlencoded( {extended : false } )); 
+const file = require('./routes/file')(connection);
 
+app.use('/file', file);
 
-app.get('/db', (req, res) => {
-  console.log(connection)
-})
-app.listen(80, () => {  
-  console.log('server 80 start')
-})
+const questions = require('./routes/questions')(connection);
+
+app.use('/questions', questions);
+
+app.listen(8000, () => {
+	console.log('server 80 start');
+});
